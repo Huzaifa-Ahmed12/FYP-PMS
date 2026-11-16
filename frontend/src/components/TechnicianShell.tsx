@@ -77,15 +77,11 @@ export default function TechnicianShell({ children }: { children: ReactNode }) {
   }, [mounted, user, tech?.active, router, logout]);
 
   // Gate client render only after mounting to prevent SSR segment drop
-  if (mounted && (!allowed || !tech)) {
-    return (
-      <div className="space-y-3 p-6">
-        <Skeleton className="h-10 w-64" />
-        <Skeleton className="h-40 w-full" />
-      </div>
-    );
-  }
-
+    const skeleton = <div className="space-y-3 p-6"><Skeleton className="h-10 w-64" /><Skeleton className="h-40 w-full" /></div>;
+  // Before hydration we still render the page (hidden) so Next.js can validate the route on the server, exactly like ManagerShell
+  // does by rendering its children. The page itself is safe without a user because useTechnician() returns a placeholder until mounted.
+  if (!mounted) return <>{skeleton}<div hidden aria-hidden>{children}</div></>;
+  if (!allowed || !tech) return skeleton;
   const mine = notifications;
   const unread = mine.filter((n) => !n.read).length;
   const newTasks = workOrders.filter((w) => w.assignedTo === user?.id && w.status === "Assigned").length;
