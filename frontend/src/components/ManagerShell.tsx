@@ -43,7 +43,7 @@ export default function ManagerShell({ children }: { children: ReactNode }) {
   }, [mounted, user, router]);
   useEffect(() => { setNavOpen(false); setBellOpen(false); setProfileOpen(false); }, [pathname]);
 
-  if (!mounted || !user || user.role !== "manager") return <div className="p-10"><Skeleton className="h-10 w-64" /></div>;
+  if (mounted && (!user || user.role !== "manager")) return <div className="p-10"><Skeleton className="h-10 w-64" /></div>;
 
   const unread = notifications.filter((n) => !n.read).length;
   const pendingReq = partRequests.filter((r) => r.status === "Pending").length;
@@ -109,8 +109,8 @@ export default function ManagerShell({ children }: { children: ReactNode }) {
 
         <div className="relative">
           <button onClick={() => { setProfileOpen(!profileOpen); setBellOpen(false); }} className="flex items-center gap-2 rounded-md p-1 hover:bg-ink/10" aria-label="Profile menu">
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-accent text-sm font-bold">{user.name.split(" ").map((p) => p[0]).join("")}</span>
-            <span className="hidden text-left text-xs sm:block"><span className="block font-semibold">{user.name}</span><span className="capitalize opacity-70">{user.role}</span></span>
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-accent text-sm font-bold">{(user?.name ?? "M").split(" ").map((p) => p[0]).join("")}</span>
+            <span className="hidden text-left text-xs sm:block"><span className="block font-semibold">{user?.name ?? "Manager"}</span><span className="capitalize opacity-70">{user?.role ?? "manager"}</span></span>
           </button>
           {profileOpen && (
             <div className="absolute right-0 mt-2 w-48 rounded-lg border border-ink bg-paper py-1 text-sm shadow-xl">

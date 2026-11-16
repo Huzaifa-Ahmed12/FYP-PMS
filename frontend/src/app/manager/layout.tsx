@@ -1,2 +1,12 @@
+import { Suspense } from "react";
 import ManagerShell from "@/components/ManagerShell";
-export default function Layout({ children }: { children: React.ReactNode }) { return <ManagerShell>{children}</ManagerShell>; }
+
+export const instant = false;
+
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <Suspense fallback={null}>
+      <ManagerShell>{children}</ManagerShell>
+    </Suspense>
+  );
+}
