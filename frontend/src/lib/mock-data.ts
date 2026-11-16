@@ -1,6 +1,6 @@
 import { FAULT_CATALOG, GENERATOR_MODEL } from "./config";
 import { buildReadings } from "./services";
-import type { Assignment, DiagnosticRecord, Fault, GeneratorAsset, HistoryEvent, Notification, Part, PartRequest, Subsystem, Technician, TimelineEntry, WorkOrder, HistoryType, Severity, TaskStatus } from "./types";
+import type { Assignment, DiagnosticRecord, Inspection, Fault, GeneratorAsset, HistoryEvent, Notification, Part, PartRequest, Subsystem, Technician, TimelineEntry, WorkOrder, HistoryType, Severity, TaskStatus } from "./types";
 
 export function makeSeed() {
   const ago = (h: number) => new Date(Date.now() - h * 3_600_000).toISOString();
@@ -126,5 +126,20 @@ export function makeSeed() {
     he(410, "Fault", "DG-10189", "Fault F-1000 opened", "Lubrication Breakdown (ML Diagnostic)", { subsystem: "Engine", faultType: "Lubrication Breakdown", severity: "Critical" }),
   ];
 
-  return { generators, technicians, diagnostics, faults, workOrders, parts, partRequests, notifications, assignments, history };
+  /* ---------- Technician-side seed (notifications addressed to a technician + inspections) ---------- */
+  const tnt = (recipientId: string, type: Notification["type"], title: string, message: string, h: number, read: boolean, link?: string): Notification =>
+    ({ id: id(), type, title, message, at: ago(h), read, link, recipientId });
+  const techNotifications: Notification[] = [
+    tnt("t3", "assignment", "New work order assigned", "WO-1004 · Turbocharger intake restriction – clean & inspect (DG-10191)", 7.5, false, "/technician/tasks/WO-1004"),
+    tnt("t4", "part_request", "Part request rejected", "PR-4: Low stock – not related to this fault.", 1.8, false, "/technician/part-requests"),
+    tnt("t4", "assignment", "New work order assigned", "WO-1001 · Cooling-system degradation – inspect radiator & thermostat (DG-10189)", 2.8, true, "/technician/tasks/WO-1001"),
+    tnt("t1", "assignment", "Work order completed", "WO-1003 was verified and closed by the manager.", 397, true, "/technician/tasks/WO-1003"),
+  ];
+  const inspections: Inspection[] = [
+    { id: "INS-1", assetId: "DG-10189", workOrderId: "WO-1001", technicianId: "t4", at: ago(1.7), condition: "Fair",
+      notes: "Radiator fins partly blocked with dust; thermostat housing shows slight weeping.",
+      checklist: [{ item: "Coolant level & hoses", state: "Needs attention" }, { item: "Engine oil level & leaks", state: "OK" }, { item: "Belts, mounts & fasteners", state: "OK" }], photos: [] },
+  ];
+
+  return { generators, technicians, diagnostics, faults, workOrders, parts, partRequests, notifications, assignments, history, techNotifications, inspections };
 }

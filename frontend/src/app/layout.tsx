@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "DG-PdM Manager Console",
+  title: "DG-PdM Console",
   description: "AI-based predictive maintenance for commercial diesel generators",
 };
 

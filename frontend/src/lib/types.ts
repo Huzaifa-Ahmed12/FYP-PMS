@@ -51,7 +51,7 @@ export interface PartRequest {
   id: string; workOrderId: string; partId: string; technicianId: string; qty: number; reason: string;
   status: RequestStatus; requestedAt: string; approvedQty?: number; decisionNote?: string; decidedAt?: string;
 }
-export interface Notification { id: string; type: NotificationType; title: string; message: string; severity?: Severity; at: string; read: boolean; link?: string }
+export interface Notification { id: string; type: NotificationType; title: string; message: string; severity?: Severity; at: string; read: boolean; link?: string; recipientId?: string }
 export interface Assignment {
   id: string; workOrderId: string; assetId: string; technicianId: string; recommendedId?: string;
   score?: number; overridden: boolean; reason?: string; at: string; by: string;
@@ -60,3 +60,14 @@ export interface HistoryEvent {
   id: string; at: string; type: HistoryType; assetId: string; title: string; detail: string;
   subsystem?: Subsystem; faultType?: string; severity?: Severity; technicianId?: string;
 }
+
+/* ---------- Technician module additions ---------- */
+export type InspectionCondition = "Good" | "Fair" | "Poor";
+export type ChecklistState = "OK" | "Needs attention" | "N/A";
+export type TaskOutcome = "Fault rectified" | "Partially rectified" | "Not rectified – follow-up needed";
+export interface ChecklistEntry { item: string; state: ChecklistState }
+export interface Inspection {
+  id: string; assetId: string; workOrderId?: string; technicianId: string; at: string;
+  condition: InspectionCondition; notes: string; checklist: ChecklistEntry[]; photos: string[];
+}
+export type NewInspection = Omit<Inspection, "id" | "at">;

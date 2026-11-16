@@ -49,7 +49,9 @@ export default function LoginPage() {
             <div className="mb-2 font-semibold">Demo accounts</div>
             <div className="flex flex-wrap gap-2">
               <Button size="sm" variant="outline" onClick={() => { setEmail("manager@dgpdm.pk"); setPassword("manager123"); }}>Manager</Button>
-              <Button size="sm" variant="outline" onClick={() => { setEmail("tech@dgpdm.pk"); setPassword("tech123"); }}>Technician</Button>
+              <Button size="sm" variant="outline" onClick={() => { setEmail("tech@dgpdm.pk"); setPassword("tech123"); }}>Technician (Usman)</Button>
+              <Button size="sm" variant="outline" onClick={() => { setEmail("imran@dgpdm.pk"); setPassword("tech123"); }}>Technician (Imran – task in progress)</Button>
+              <Button size="sm" variant="outline" onClick={() => { setEmail("sana@dgpdm.pk"); setPassword("tech123"); }}>Technician (Sana – new assignment)</Button>
             </div>
           </div>
         </Card>

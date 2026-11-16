@@ -1,4 +1,4 @@
-import type { Availability, FaultStatus, OperationalStatus, Priority, Severity, Subsystem, TaskStatus } from "./types";
+import type { Availability, FaultStatus, OperationalStatus, Priority, Severity, Subsystem, TaskOutcome, TaskStatus } from "./types";
 
 export const APP_NAME = "DG-PdM";
 
@@ -61,3 +61,18 @@ export const PERTURB: Record<string, Record<string, number>> = {
   "Bearing Fault": { thdPct: 2.2, crestFactor: 0.25 },
   "Rotor Bar Fault": { thdPct: 3.8, sidebandRatio: 0.12, crestFactor: 0.3 },
 };
+
+/* ---------- Technician module settings ---------- */
+/** Requirement 7.2: "Accept or decline assignment with a reason if declining is enabled by the manager workflow". */
+export const ALLOW_DECLINE = true;
+/** Default password for any technician account created by the manager (demo only – replaced by real auth later). */
+export const TECH_DEFAULT_PASSWORD = "tech123";
+export const TASK_OUTCOMES: TaskOutcome[] = ["Fault rectified", "Partially rectified", "Not rectified – follow-up needed"];
+export const URGENCY_LEVELS = ["Can wait for scheduled service", "Should be fixed within days", "Fix within 24 hours", "Unit unsafe – immediate attention"];
+export const OPERATIONAL_IMPACTS = ["No impact on supply", "Reduced capacity / derated", "Intermittent outages", "Unit cannot run"];
+/** Generic walk-around checklist. Align the items with the supervisor-approved component taxonomy later. */
+export const INSPECTION_CHECKLIST = [
+  "Engine oil level & leaks", "Coolant level & hoses", "Fuel supply, filters & leaks", "Air intake filter & turbocharger inlet",
+  "Belts, mounts & fasteners", "Exhaust system & joints", "Battery & starting system", "Alternator terminals & cooling air path",
+  "Control panel alarms & indicators", "Abnormal noise, vibration or smell",
+];
