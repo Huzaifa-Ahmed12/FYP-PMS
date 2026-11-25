@@ -1,17 +1,14 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ink: #0f172a;
-  --color-accent: #f59e0b;
-  --color-paper: #f1f5f9;
+  --color-ink: #14213d;
+  --color-accent: #fca311;
+  --color-paper: #e5e5e5;
 }
+
 html, body { background: var(--color-paper); color: var(--color-ink); }
 body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
-*:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 2px; border-radius: 4px; }
-::selection { background: var(--color-accent); color: var(--color-ink); }
-html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
-button, a, input, select, textarea { transition: background-color .15s ease, border-color .15s ease, color .15s ease, box-shadow .15s ease; }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+*:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 2px; }
 
 /* Keep map inside the 3-color palette */
 .leaflet-tile-pane { filter: grayscale(1) contrast(0.95); }
