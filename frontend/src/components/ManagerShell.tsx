@@ -43,7 +43,7 @@ export default function ManagerShell({ children }: { children: ReactNode }) {
   }, [mounted, user, router]);
   useEffect(() => { setNavOpen(false); setBellOpen(false); setProfileOpen(false); }, [pathname]);
 
-  if (mounted && (!user || user.role !== "manager")) return <div className="p-10"><Skeleton className="h-10 w-64" /></div>;
+  if (mounted && (!user || user.role !== "manager")) return <div className="p-10"><Skeleton className="h-10 w-63" /></div>;
 
   const unread = notifications.filter((n) => !n.read).length;
   const pendingReq = partRequests.filter((r) => r.status === "Pending").length;
